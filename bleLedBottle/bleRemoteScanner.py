@@ -18,6 +18,15 @@ largestDetectedTTL = 0
 bt = None
 bleTransmitter = None
 
+currentLedPatternGroup = 0
+currentLedSubPattern = 0
+
+def getCurrentLedPatternGroup():
+    return currentLedPatternGroup
+
+def getCurrentLedSubPattern():
+    return currentLedSubPattern
+
 def bt_irq(event, data):
     global largestDetectedTTL
     if event == _IRQ_SCAN_RESULT:
@@ -28,17 +37,17 @@ def bt_irq(event, data):
                 global deviceFound
                 newlyFoundDeviceUuidList = decode_remote_services(adv_data)
                 if(newlyFoundDeviceUuidList[2] >= largestDetectedTTL):
+                    global currentLedPatternGroup
+                    global currentLedSubPattern
                     uuidList = newlyFoundDeviceUuidList
                     deviceFound = True
                     largestDetectedTTL = newlyFoundDeviceUuidList[2]
                     bleTransmitter.advertise(uuidList[0], uuidList[1], uuidList[2])
+                    currentLedPatternGroup = uuidList[1]
+                    currentLedSubPattern = uuidList[0]
     elif event == _IRQ_SCAN_COMPLETE:
         # Scan duration finished or manually stopped.
-        if(deviceFound):
-            print("Device found")
-            print(uuidList)
-        else:
-            print("No device detected")
+        if(not deviceFound):
             largestDetectedTTL -= 1
             if(largestDetectedTTL < 0):
                 largestDetectedTTL = 0

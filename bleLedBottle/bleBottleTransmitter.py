@@ -18,7 +18,6 @@ class BLERemoteTransmitter:
         self._ad_name = name
 
     def advertise(self, selected_button_x, selected_button_y, previous_ttl):
-        print("Starting advertising")
         newTtl = previous_ttl - 1
         if(newTtl < 0):
             newTtl = 0
