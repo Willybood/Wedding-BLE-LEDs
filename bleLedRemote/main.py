@@ -11,6 +11,7 @@ unselectedBrightness = 0.05 # From 0 to 1
 bleIntervalMs = 250
 timeBetweenGpioChecksSec = 0.2
 unselectedButtonOption = 99
+defaultButtons = [0, 0]
 
 # Module variables
 ble = bluetooth.BLE()
@@ -20,8 +21,9 @@ keypad.brightness = unselectedBrightness
 keypad.color = (0, 255, 255)
 
 def runLeds():
-    previousKey = [unselectedButtonOption,unselectedButtonOption]
-    currentlySelectedKey = [unselectedButtonOption,unselectedButtonOption]
+    previousKey = [defaultButtons[0], defaultButtons[1]]
+    currentlySelectedKey = [defaultButtons[0], defaultButtons[1]]
+    keypad[defaultButtons[0], defaultButtons[1]].brightness = 1
     buttonCurrentlyPushed = False
     while True:
         sleep(timeBetweenGpioChecksSec)
@@ -49,5 +51,5 @@ def runLeds():
                     print("key", x, y, "released")
                     
 if __name__ == "__main__":
-    bleTransmitter.advertise(unselectedButtonOption, unselectedButtonOption)
+    bleTransmitter.advertise(defaultButtons[0], defaultButtons[1])
     runLeds()
