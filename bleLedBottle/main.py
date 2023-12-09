@@ -3,6 +3,7 @@ import plasma
 from plasma import plasma_stick
 from math import sin
 from bleRemoteScanner import startScanningForRemotes
+from bleBottleTransmitter import BLERemoteTransmitter
 
 """
 Simple pulsing effect generated using a sine wave.
@@ -20,6 +21,9 @@ MIN_LED_BRIGHTNESS = 0.3
 
 SPEED = 0.002
 
+BLE_NAME = "wedBot"
+BLE_INTERVAL_MS = 250
+
 # set up the WS2812 / NeoPixel™ LEDs
 led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
 
@@ -28,12 +32,14 @@ led_strip.start()
 
 offset = 0
 
+bt = BLE()
+bleTransmitter = BLERemoteTransmitter(bt, BLE_NAME, BLE_INTERVAL_MS)
+
 def map(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 if __name__ == "__main__":
-    bt = BLE()
-    startScanningForRemotes(bt)
+    startScanningForRemotes(bt, bleTransmitter)
     while True:
         # use a sine wave to set the brightness
         mappedValue = map(sin(offset), 1.0, -1.0, 1.0, 0.3)
