@@ -77,6 +77,13 @@ def decode_name(payload):
     return str(n[0], "utf-8") if n else ""
 
 
+def decode_remote_services(payload):
+    services = []
+    for u in decode_field(payload, _ADV_TYPE_UUID16_COMPLETE):
+        services.append(bluetooth.UUID(struct.unpack("<h", u)[0]))
+    return services
+
+
 def decode_services(payload):
     services = []
     for u in decode_field(payload, _ADV_TYPE_UUID16_COMPLETE):
