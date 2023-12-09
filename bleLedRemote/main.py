@@ -53,7 +53,6 @@ def processKeys():
                     bleTransmitter.advertise(unselectedButtonOption, unselectedButtonOption)
                     buttonCurrentlyPushed = True
                     currentlySelectedKey = [unselectedButtonOption, unselectedButtonOption]
-                    print("key", x, y, "depressed")
                 elif key.is_pressed() and buttonCurrentlyPushed == False: # If a new button is pushed
                     if(previousKey[0] < 4 and previousKey[1] < 4): # If the values are in range
                         keypad[previousKey[0], previousKey[1]].brightness = unselectedBrightness
@@ -62,10 +61,8 @@ def processKeys():
                     bleTransmitter.advertise(x, y)
                     currentlySelectedKey = [x, y]
                     buttonCurrentlyPushed = True
-                    print("key", x, y, "pressed")
                 elif key.is_pressed() == False and (x == previousKey[0] and y == previousKey[1]) and buttonCurrentlyPushed: # If the button is released
                     buttonCurrentlyPushed = False
-                    print("key", x, y, "released")
                     
 if __name__ == "__main__":
     bleTransmitter.advertise(defaultButtons[0], defaultButtons[1])

@@ -19,7 +19,6 @@ class BLERemoteTransmitter:
         self._ad_name = name
 
     def advertise(self, selected_button_x, selected_button_y):
-        print("Starting advertising")
         uuids_to_advertise = [bluetooth.UUID(_UNIQUE_UUID_FOR_REMOTES), # Unique ID
               bluetooth.UUID(selected_button_x), # x axis of selected button
               bluetooth.UUID(selected_button_y), # y axis of selected button
