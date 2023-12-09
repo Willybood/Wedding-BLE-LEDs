@@ -95,7 +95,7 @@ def playLedPattern(patternGroup, subPattern):
             turnLedsOff()
     elif(3 == patternGroup):
         if(0 == subPattern):
-            fireEffect()
+            sparkle(led_strip, NUM_LEDS, [0, 0, 255], [255, 0, 0]) # Blue and Red
         elif(1 == subPattern):
             rainbows()
         elif(2 == subPattern):
