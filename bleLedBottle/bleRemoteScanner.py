@@ -1,6 +1,5 @@
 from ubluetooth import BLE, UUID, FLAG_NOTIFY, FLAG_READ, FLAG_WRITE
 from micropython import const
-from time import sleep
 from ble_advertising import decode_remote_services, decode_name
 from bleBottleTransmitter import BLERemoteTransmitter
 

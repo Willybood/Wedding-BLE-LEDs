@@ -3,7 +3,6 @@ from rgbkeypad import RGBKeypad
 import bluetooth
 import struct
 from bleRemoteTransmitter import BLERemoteTransmitter
-from time import sleep
 from math import sin
 
 # Constants

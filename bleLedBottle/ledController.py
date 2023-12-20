@@ -2,7 +2,7 @@ import plasma
 from plasma import plasma_stick
 from math import sin
 from random import random, uniform
-import time
+from time import ticks_ms
 from snow import snow
 from sparkles import sparkle
 from tree import setupTree, tree
@@ -10,6 +10,8 @@ from tree import setupTree, tree
 # Set how many LEDs you have
 NUM_LEDS = 50
 led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
+
+previousCheckedMs = 0
 
 def map(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -33,24 +35,30 @@ def solidColour(red, green, blue):
 
 # Fire effect! Random red/orange hue, full saturation, random brightness
 def fireEffect():
-    for i in range(NUM_LEDS):
-        led_strip.set_hsv(i, uniform(0.0, 50 / 360), 1.0, random())
-    time.sleep(0.1)
+    global previousCheckedMs
+    lightChangeDelayMs = 100
+    currentMs = ticks_ms()
+    if(currentMs != previousCheckedMs and currentMs % lightChangeDelayMs == 0):
+        previousCheckedMs = currentMs
+        for i in range(NUM_LEDS):
+            led_strip.set_hsv(i, uniform(0.0, 50 / 360), 1.0, random())
     
 # Rainbow colour effect
 rainbowOffset = 0.0
 def rainbows():
+    global previousCheckedMs
     global rainbowOffset
     SPEED = 20 # The SPEED that the LEDs cycle at (1 - 255)
     UPDATES = 60 # How many times the LEDs will be updated per second
-
-    rainbowOffset += float(SPEED) / 2000.0
-
-    for i in range(NUM_LEDS):
-        hue = float(i) / NUM_LEDS
-        led_strip.set_hsv(i, hue + rainbowOffset, 1.0, 1.0)
-
-    time.sleep(1.0 / UPDATES)
+    
+    lightChangeDelayMs = int((1.0 / UPDATES) * 1000.0)
+    currentMs = ticks_ms()
+    if(currentMs != previousCheckedMs and currentMs % lightChangeDelayMs == 0):
+        rainbowOffset += float(SPEED) / 2000.0
+        previousCheckedMs = currentMs
+        for i in range(NUM_LEDS):
+            hue = float(i) / NUM_LEDS
+            led_strip.set_hsv(i, hue + rainbowOffset, 1.0, 1.0)
 
 def turnLedsOff():
     solidColour(0, 0, 0)
