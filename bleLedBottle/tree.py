@@ -26,6 +26,8 @@ LIGHT_CHANGE_DELAY_SEC = 0.5
 
 # initial setup
 def setupTree(led_strip, num_leds):
+    global timeForNextTreeUpdate
+    timeForNextTreeUpdate = ticks_us()
     for i in range(num_leds):
         if i % LIGHT_RATIO == 0:  # add an appropriate number of lights
             led_strip.set_hsv(i, *choice(LIGHT_COLOURS))  # choice randomly chooses from a list

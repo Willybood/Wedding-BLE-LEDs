@@ -105,6 +105,9 @@ def playLedPattern(patternGroup, subPattern):
         if(0 == subPattern):
             sparkle(led_strip, NUM_LEDS, [0, 0, 255], [255, 0, 0]) # Blue and Red
         elif(1 == subPattern):
+            if(previousPatternGroup != patternGroup or previousSubPattern != subPattern):
+                global timeForNextRainbowUpdate
+                timeForNextRainbowUpdate = ticks_us()
             rainbows()
         elif(2 == subPattern):
             snow(led_strip, NUM_LEDS)
