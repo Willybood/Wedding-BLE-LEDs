@@ -26,6 +26,14 @@ def getCurrentLedPatternGroup():
 def getCurrentLedSubPattern():
     return currentLedSubPattern
 
+def setCurrentLedPatternGroup(data):
+    global currentLedPatternGroup
+    currentLedPatternGroup = data
+
+def setCurrentLedSubPattern(data):
+    global currentLedSubPattern
+    currentLedSubPattern = data
+
 def bt_irq(event, data):
     global largestDetectedTTL
     if event == _IRQ_SCAN_RESULT:
